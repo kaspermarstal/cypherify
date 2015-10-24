@@ -1,31 +1,33 @@
 import cypherify from '../lib/cypherify';
-
+/*
 let cypher = new cypherify({
-  verbose: true;  // print cypher statement to console as they are constructed
+  verbose: true  // print cypher statement to console as they are constructed
 })
 
-describe('Cypher Query Language Section 10.1 General Clauses - Return') {
-  it('should return a node', function() {
-    expect(`MATCH (node0 {node0_properties}) RETURN node0`).to.equal(
-      cypher.match.node({name: 'B'}).toCypher();
+
+
+describe('Cypher Query Language Section 10.1 General Clauses - Return', () => {
+  it('should return nodes', function() {
+    expect(`MATCH (n { name: "B" }) RETURN n`).to.equal(
+      cypher.match(
+        node('n', {name: 'B'})
+      ).return(
+        ({n}) => n
+      ).toCypher();
     );
   });
 
-  it('should return a named node', function() {
-    expect(`MATCH (n {n_properties}) RETURN n`).to.equal(
-      cypher.match.node('n', {name: 'B'}).toCypher();
-  });
-
-  it('should return a relationship', function() {
-    expect(`MATCH (node0 {node0_properties})-[rel1:KNOWS]->(node2) RETURN rel1`).to.equal(
-      cypher
-        .match.node({name: 'A'}).out({ type: KNOWS }).node
-        .returns('rel1')
-        .toCypher();
+  it('should return relationships', function() {
+    expect(`MATCH (n { name: "A" })-[r:KNOWS]->(c) RETURN r`).to.equal(
+      cypher.match(
+        node('n', {name: 'A'}).out('r', { type: KNOWS }).node('c')
+      ).return(
+        ({r}) => r
+      ).toCypher();
     );
   });
 
-  it('should return a named relationship', function() {
+  it('should return properties', function() {
     expect(`MATCH (node0 {node0_properties})-[relationship:KNOWS]->(n2) RETURN relationship`).to.equal(
       match.node({name: 'A'}).out('relationship', { type: KNOWS }).node
         .returns('relationship')
@@ -87,7 +89,7 @@ describe('Cypher Query Language Section 10.1 General Clauses - Return') {
       cypheriphy
         .match.node('n', { name: 'A' })
         .returns(
-          cypheriphy.property('n', 'age').ht(30).toCypher(), 
+          cypheriphy.property('n', 'age').ht(30).toCypher(),
           cypheriphy.literal('\"I\'m a literal\"').toCypher(),
           cypheriphy.node('a').out.node.toCypher()
         )
@@ -343,13 +345,13 @@ describe('Cypher Query Language Section 10.1 General Clauses - Return') {
 //               node( "a" ).both( "BLOCKS" ).node( "d" ).both( "KNOWS" ).node( "c" ) ).
 //          returns( identifiers( "a", "b", "c", "d" ) ).
 //          toString() );
-// /*
+//
 //           start( node( "a", 3 ) ).
 //            match( path().from( "a" ).out( "KNOWS" ).to( "b" ).link().out( "KNOWS" ).to( "c" ),
 //                path().from( "a" ).both( "BLOCKS" ).to( "d" ).link().both( "KNOWS" ).to( "c" ) ).
 //            returns( identifiers( "a", "b", "c", "d" ) ).
 //            toString() );
-// */
+//
 //  }
 
 //  @Test
@@ -1454,3 +1456,4 @@ describe('Cypher Query Language Section 10.1 General Clauses - Return') {
 //          literal( true ) ) , identifier("n").label("Person") ) ).toString() );
 //  }
 }
+*/

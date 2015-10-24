@@ -1,0 +1,27 @@
+{
+  "name": "cypherify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaspermarstal/cypherify.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kaspermarstal/cypherify/issues"
+  },
+  "homepage": "https://github.com/kaspermarstal/cypherify#readme",
+  "dependencies": {
+    "babel": "^5.8.23"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "chai": "*",
+    "mocha": "*"
+  }
+}
