@@ -1,7 +1,7 @@
 {
   "name": "cypherify",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.2",
+  "description": "A Cypher DSL for Javascript",
   "main": "test.js",
   "scripts": {
     "test": "mocha --compilers js:babel/register"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/kaspermarstal/cypherify.git"
   },
-  "author": "",
+  "author": "Zacharias Dyna Knudsen and Kasper Marstal",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kaspermarstal/cypherify/issues"
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "babel": "^5.8.23",
-    "chai": "*",
-    "mocha": "*"
+    "chai": "^3.3.0",
+    "mocha": "~1.2.0"
   }
 }
