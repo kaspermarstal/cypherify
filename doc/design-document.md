@@ -100,6 +100,12 @@ We do not implement `START` since this is an antipattern in Neo4j 2+ (use match 
 
 Writing Clauses
 ---------------
+
+{
+  query: 'cypher',
+
+}
+
 `CREATE`, `MERGE`, `SET`, `DELETE`, `REMOVE`, `FOREACH`, `CREATE UNIQUE`, takes any number of arguments. An argument is a function which will be evaluated and the result string will be inserted into the final query.
 
 Result
