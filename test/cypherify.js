@@ -4,12 +4,10 @@ import {cypherify, node, path} from '../lib/cypherify';
 
 describe('Return Clause', () => {
 
-  it('should reduce match arguments', function() {
-    let ast = new cypherify().match(node('b').out('rel').node('c'), 'a').toAST();
-    console.log(JSON.stringify(ast));
-
-    ast = new cypherify().match(b => node('b')).toAST();
-    console.log(ast);
+  it('should query for a relationship between two nodes', function() {
+    let cypher = new cypherify().match(node('a').out('b').node('c'));
+    console.log(cypher.toString())
+    //expect('MATCH (a)-[:b]->(c)').to.equal(cypher.toCypher())
   });
 
   // const tests = {
