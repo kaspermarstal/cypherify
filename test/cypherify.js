@@ -5,9 +5,9 @@ import {cypherify, node, path} from '../lib/cypherify';
 describe('Return Clause', () => {
 
   it('should query for a relationship between two nodes', function() {
-    let cypher = new cypherify().match(node('a').out('b').node('c'));
+    let cypher = new cypherify().match(node('a').out('b').node('c').RETURN('a', {b} => b));
     console.log(cypher.toString())
-    //expect('MATCH (a)-[:b]->(c)').to.equal(cypher.toCypher())
+    //expect('MATCH (a)-[:b]->(c) RETURN a, b').to.equal(cypher.toCypher())
   });
 
   // const tests = {
