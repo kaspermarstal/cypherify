@@ -1,15 +1,75 @@
 import {expect} from 'chai'
 
-import {cypherify, node, path} from '../lib/cypherify';
+import {cypherify, node, path, identifier, stringify} from '../lib/cypherify';
+import {type} from '../lib/type.js'
 
-describe('Return Clause', () => {
+describe('Cypherify', () => {
 
   it('should query for a relationship between two nodes', function() {
-    let cypher = new cypherify().match(node('a').out('b').node('c').RETURN('a', {b} => b));
-    console.log(cypher.toString())
-    //expect('MATCH (a)-[:b]->(c) RETURN a, b').to.equal(cypher.toCypher())
+    let cypher = new cypherify().match(node('a', 'Person', {id: 0}).out('b', 'KNOWS', null, null).node('c',
+  'Person', {})).return_(identifier('a'));
+    let tree = {
+      type: type.CYPHERIFY,
+      value: [
+        {
+          type: type.MATCH,
+          value: [
+            {
+              type: type.EXPRESSION,
+              value: [
+                {
+                  type: type.NODE,
+                  value: {
+                    name: 'a',
+                    label: 'Person',
+                    properties: {
+                      id: 0
+                    }
+                  }
+                },
+                {
+                  type: type.OUT,
+                  value: {
+                    name: 'b',
+                    label: 'KNOWS',
+                    properties: null,
+                    length: null
+                  }
+                },
+                {
+                  type: type.NODE,
+                  value: {
+                    name: 'c',
+                    label: 'Person',
+                    properties: {}
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          type: type.RETURN,
+          value: [
+            {
+              type: type.EXPRESSION,
+              value: [
+                {
+                  type: type.IDENTIFIER,
+                  value: 'a'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+    expect(cypher.toAST()).to.deep.equal(tree);
+    expect(stringify(cypher)).to.equal('MATCH (a:Person {a_properties})-[b:KNOWS]->(c:Person {c_properties}) RETURN a');
   });
 
+  // let cypher = new cypherify().match(node('a').out('b').node('c')).return_(count(identifier('a).age.lt(35), 'a')
   // const tests = {
   //   'return nodes': [
   //     `MATCH (n { name: "B" }) RETURN n`,

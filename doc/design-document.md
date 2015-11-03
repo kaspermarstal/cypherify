@@ -22,17 +22,18 @@ import {
   node
 }
 
-// Construct a cypherify object for cypher expression `MATCH (user)-[:FRIEND_OF]->() RETURN user`.
-// Internally, an Abstract Syntax Tree (AST) is build that we can later use to generate the cypher
-// string, query object for neo4j driver or parse Neo4j response into GraphQL format.
+// Construct a cypherify object for cypher expression `MATCH (user:User)-[:FRIEND_OF]->() RETURN user`.
+// Internally, an Abstract Syntax Tree (AST) is built that we can later use to generate a cypher
+// string, a query object for the thingdom neo4j driver, parse Neo4j response into GraphQL format
+// and/or validate the Response against a GraphQL schema.
 let cypherifyUserQuery = new cypherify.match.node('user', 'User', {}).out(null, null, { type: FRIEND_OF }).node(null, 'User').return_('user');
 
 // We gave the user-node above an empty object because this data will later be specified at query-time.
 
 // Create a query with a Cypher string and associated parameters, i.e.
 // {
-//   query: `MATCH (user {user_properties})-[:FRIEND_OF]->() RETURN user`,
-//   parameters: {} // <-- will be filled in by the resolver
+//   query: `MATCH (user:User {user_properties})-[:FRIEND_OF]->() RETURN user`,
+//   parameters: {} // <-- will be filled in by the GraphQL resolver at query-time
 // }
 let userQuery = cypherifyUserQuery.toQuery();
 
@@ -63,13 +64,8 @@ var queryType = new GraphQLObjectType({
 });
 ```
 
-There are a couple of things going on
-
-- `cypherify` provides a Cypher Query DSL inspired by chai tests (e.g. exepct(obj).to.have.property('key').equal.to.('value'))
-- `toQuery` returns a { query, param } object where `query` is the query string and param contains the props given to nodes and relationsships. A paramerized query (like above) is best practice use of the Neo4j REST API because it allows Neo4j to cache the execution plan.
-- `neo4j.request` takes a { query, param } object and promisifies the request. `toGraphQL()` will validate response against a schema if given.
-- `neo4j` is our current neo4j class that holds the connection to the database via thingdom/node-neo4j driver.
-
+Language
+--------
 There are three main possible dialects:
   - chai-esque
       cypheriphy
@@ -78,14 +74,14 @@ There are three main possible dialects:
         .returns.property('a', 'name').property('friendOfFriend', 'name')
         .toCypher();
       - Pro: Pure chain (more idiomatic JS?)
-      - Cons: More notation ambiguity
+      - Cons: Notation ambiguity
   - Java Cypher DSL-esque
       cypherify
         .match(path('p', node('a').out('friend').node.out('friend').node('friendOfFriend')))
         .where(identifier('a').property('name').eq('Alice'))
         .returns(identifier('a').property('name').and(asdks).or(), identifier('friendOfFriend').property('name'))
-      - Pro: Takes ques from DSL developed by neo4j itself, less notation ambiguity
-      - Cons: expose a lot of keywords because many statements are unanchored, more verbose
+      - Pro: Takes ques from DSL developed by neo4j itself, no notation ambiguity
+      - Cons: Verbose, more Java-idomatic than javascript idiomatic
   - ECMA6-esque
       cypherify
         .match(
@@ -119,4 +115,4 @@ Patterns
 - 4: '\*lengthexpr'
 
 
-We do not implement `START` since this is an antipattern in Neo4j 2+. Use match instead.
+We do not implement `START` since this is an antipattern in Neo4j 2.0+. Use match instead.
