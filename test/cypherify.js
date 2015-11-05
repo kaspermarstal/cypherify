@@ -5,9 +5,9 @@ import {type} from '../lib/type.js'
 
 describe('Cypherify', () => {
 
-  it('should query for a relationship between two nodes', function() {
+  it('should return nodes with relationship to a specified node', function() {
     let cypher = new cypherify().match(node('a', 'Person', {id: 0}).out('b', 'KNOWS', null, null).node('c',
-  'Person', {})).return_(identifier('a'));
+  'Person', {})).return_(identifier('c'));
     let tree = {
       type: type.CYPHERIFY,
       value: [
@@ -56,7 +56,7 @@ describe('Cypherify', () => {
               value: [
                 {
                   type: type.IDENTIFIER,
-                  value: 'a'
+                  value: 'c'
                 }
               ]
             }
@@ -66,8 +66,10 @@ describe('Cypherify', () => {
     }
 
     expect(cypher.toAST()).to.deep.equal(tree);
-    expect(stringify(cypher)).to.equal('MATCH (a:Person {a_properties})-[b:KNOWS]->(c:Person {c_properties}) RETURN a');
+    expect(cypher.toCypher()).to.equal('MATCH (a:Person {a_properties})-[b:KNOWS]->(c:Person {c_properties}) RETURN c');
   });
+
+
 
   // let cypher = new cypherify().match(node('a').out('b').node('c')).return_(count(identifier('a).age.lt(35), 'a')
   // const tests = {
