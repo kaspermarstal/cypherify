@@ -1,7 +1,20 @@
 import {expect} from 'chai'
 
 import {cypherify, node, path, identifier, stringify} from '../lib/cypherify';
-import {type} from '../lib/type.js'
+
+import {
+  CREATE,
+  CYPHERIFY,
+  EXPRESSION,
+  IDENTIFIER,
+  MATCH,
+  NODE,
+  OUT,
+  OPTIONAL_MATCH,
+  PATH,
+  RETURN,
+  WHERE
+} from '../lib/types'
 
 describe('Cypherify', () => {
 
@@ -9,16 +22,16 @@ describe('Cypherify', () => {
     let cypher = new cypherify().match(node('a', 'Person', {id: 0}).out('b', 'KNOWS', null, null).node('c',
   'Person', {})).return_(identifier('c'));
     let tree = {
-      type: type.CYPHERIFY,
+      type: CYPHERIFY,
       value: [
         {
-          type: type.MATCH,
+          type: MATCH,
           value: [
             {
-              type: type.EXPRESSION,
+              type: EXPRESSION,
               value: [
                 {
-                  type: type.NODE,
+                  type: NODE,
                   value: {
                     name: 'a',
                     label: 'Person',
@@ -28,7 +41,7 @@ describe('Cypherify', () => {
                   }
                 },
                 {
-                  type: type.OUT,
+                  type: OUT,
                   value: {
                     name: 'b',
                     label: 'KNOWS',
@@ -37,7 +50,7 @@ describe('Cypherify', () => {
                   }
                 },
                 {
-                  type: type.NODE,
+                  type: NODE,
                   value: {
                     name: 'c',
                     label: 'Person',
@@ -49,13 +62,13 @@ describe('Cypherify', () => {
           ]
         },
         {
-          type: type.RETURN,
+          type: RETURN,
           value: [
             {
-              type: type.EXPRESSION,
+              type: EXPRESSION,
               value: [
                 {
-                  type: type.IDENTIFIER,
+                  type: IDENTIFIER,
                   value: 'c'
                 }
               ]
